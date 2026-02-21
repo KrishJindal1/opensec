@@ -3,8 +3,8 @@ import json
 import os
 import sys
 
-# Assume the local Ollama instance is running
-OLLAMA_URL = "http://localhost:11434/api/generate"
+# Bifrost Gateway provides OpenAI-compatible unified routing
+BIFROST_URL = "http://localhost:8000/bifrost/v1/chat/completions"
 # OpenSec Gateway validation endpoint
 GATEWAY_URL = "http://localhost:8000/api/validate"
 
@@ -24,7 +24,7 @@ def ask_gateway(prompt):
     """
     print(f"[OpenClaw] Asking Gateway for permission: '{prompt}'")
     try:
-        response = requests.post(GATEWAY_URL, json={"prompt": prompt}, timeout=5)
+        response = requests.post(GATEWAY_URL, json={"prompt": prompt}, timeout=60)
         if response.status_code == 200:
             print("[OpenClaw] Gateway says: ALLOWED ✅")
             return True
@@ -37,12 +37,12 @@ def ask_gateway(prompt):
 
 def run_agent(task):
     """
-    Simulated agent loop using Ollama.
+    Simulated agent loop using Bifrost via LiteLLM routing.
     """
     print(f"\n--- Starting OpenClaw Agent ---")
     print(f"Task: {task}")
     
-    # 1. Ask Ollama what to do
+    # 1. Ask Bifrost what to do
     system_prompt = """
     You are OpenClaw, an autonomous agent. 
     You have ONE tool: `read_local_file(filepath)`.
@@ -51,17 +51,18 @@ def run_agent(task):
     """
     
     payload = {
-        "model": "llama3", # Assuming a standard local model like llama3
+        "model": "glm-5:cloud", # Bifrost handles mapping this
         "prompt": f"{system_prompt}\nUser request: {task}",
-        "stream": False
+        "temperature": 0.7
     }
     
-    print("[OpenClaw] Thinking...")
+    print("[OpenClaw] Routing thought process through Bifrost Gateway...")
     try:
-        response = requests.post(OLLAMA_URL, json=payload, timeout=30)
-        action = response.json().get('response', '').strip()
+        response = requests.post(BIFROST_URL, json=payload, timeout=30)
+        resp_json = response.json()
+        action = resp_json.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
         if not action:
-            raise ValueError("Empty response from Ollama")
+            raise ValueError(f"Empty or malformed response from Bifrost: {resp_json}")
     except Exception as e:
         print(f"[OpenClaw] Failed to speak to local Ollama brain: {e}")
         # fallback to basic parsing if ollama isn't loaded with llama3

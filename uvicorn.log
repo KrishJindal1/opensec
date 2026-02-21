@@ -1,0 +1,106 @@
+nohup: ignoring input
+INFO:backend.security_engine:Initializing Security Engine...
+2026-02-20 23:04:06 [debug    ] Initialized classification model device=device(type='cpu') model=Model(path='protectai/deberta-v3-base-prompt-injection-v2', subfolder='', revision='89b085cd330414d3e7d9dd787870f315957e1e9f', onnx_path='ProtectAI/deberta-v3-base-prompt-injection-v2', onnx_revision='89b085cd330414d3e7d9dd787870f315957e1e9f', onnx_subfolder='onnx', onnx_filename='model.onnx', kwargs={}, pipeline_kwargs={'batch_size': 1, 'device': device(type='cpu'), 'return_token_type_ids': False, 'max_length': 512, 'truncation': True}, tokenizer_kwargs={})
+Device set to use cpu
+2026-02-20 23:04:06 [debug    ] Initialized classification model device=device(type='cpu') model=Model(path='MoritzLaurer/roberta-base-zeroshot-v2.0-c', subfolder='', revision='d825e740e0c59881cf0b0b1481ccf726b6d65341', onnx_path='protectai/MoritzLaurer-roberta-base-zeroshot-v2.0-c-onnx', onnx_revision='fde5343dbad32f1a5470890505c72ec656db6dbe', onnx_subfolder='', onnx_filename='model.onnx', kwargs={}, pipeline_kwargs={'batch_size': 1, 'device': device(type='cpu'), 'return_token_type_ids': False, 'max_length': 512, 'truncation': True}, tokenizer_kwargs={})
+Device set to use cpu
+INFO:     Started server process [155033]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+[92m23:04:11 - LiteLLM:INFO[0m: utils.py:3889 - 
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+INFO:LiteLLM:
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+WARNING:py.warnings:/home/power/.local/lib/python3.12/site-packages/pydantic/main.py:528: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected 10 fields but got 6: Expected `Message` - serialized value may not be as expected [field_name='message', input_value=Message(content='SELECT *... reasoning_content=None), input_type=Message])
+  PydanticSerializationUnexpectedValue(Expected `StreamingChoices` - serialized value may not be as expected [field_name='choices', input_value=Choices(finish_reason='st...reasoning_content=None)), input_type=Choices])
+  return self.__pydantic_serializer__.to_json(
+
+[92m23:04:14 - LiteLLM:INFO[0m: utils.py:1629 - Wrapper: Completed Call, calling success_handler
+INFO:LiteLLM:Wrapper: Completed Call, calling success_handler
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:51406 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45654 - "POST /api/validate-sql HTTP/1.1" 200 OK
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+[92m23:04:14 - LiteLLM:INFO[0m: utils.py:3889 - 
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+INFO:LiteLLM:
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+WARNING:py.warnings:/home/power/.local/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_worker.py:75: RuntimeWarning: coroutine 'Logging.async_success_handler' was never awaited
+  self._queue = None
+
+ERROR:asyncio:Task was destroyed but it is pending!
+task: <Task pending name='Task-12' coro=<LoggingWorker._worker_loop() running at /home/power/.local/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_worker.py:110>>
+WARNING:py.warnings:/home/power/.local/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_worker.py:77: RuntimeWarning: coroutine 'LoggingWorker._worker_loop' was never awaited
+  self._worker_task = None
+
+[92m23:04:30 - LiteLLM:INFO[0m: utils.py:1629 - Wrapper: Completed Call, calling success_handler
+INFO:LiteLLM:Wrapper: Completed Call, calling success_handler
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:45658 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55638 - "POST /api/validate-sql HTTP/1.1" 403 Forbidden
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+[92m23:04:30 - LiteLLM:INFO[0m: utils.py:3889 - 
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+INFO:LiteLLM:
+LiteLLM completion() model= glm-5:cloud; provider = ollama
+WARNING:py.warnings:/home/power/.local/lib/python3.12/site-packages/pydantic/main.py:528: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected 10 fields but got 6: Expected `Message` - serialized value may not be as expected [field_name='message', input_value=Message(content='DROP TAB... reasoning_content=None), input_type=Message])
+  PydanticSerializationUnexpectedValue(Expected `StreamingChoices` - serialized value may not be as expected [field_name='choices', input_value=Choices(finish_reason='st...reasoning_content=None)), input_type=Choices])
+  return self.__pydantic_serializer__.to_json(
+
+ERROR:asyncio:Task was destroyed but it is pending!
+task: <Task pending name='Task-23' coro=<LoggingWorker._worker_loop() running at /home/power/.local/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_worker.py:110>>
+[92m23:04:35 - LiteLLM:INFO[0m: utils.py:1629 - Wrapper: Completed Call, calling success_handler
+INFO:LiteLLM:Wrapper: Completed Call, calling success_handler
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:55642 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52842 - "POST /api/validate-sql HTTP/1.1" 403 Forbidden
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+INFO:backend.bifrost:[Bifrost Gateway] ⚡ CACHE HIT (Skipped Provider API)
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:57934 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57948 - "POST /api/validate-sql HTTP/1.1" 200 OK
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+INFO:backend.bifrost:[Bifrost Gateway] ⚡ CACHE HIT (Skipped Provider API)
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:57950 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57962 - "POST /api/validate-sql HTTP/1.1" 403 Forbidden
+INFO:backend.bifrost:[Bifrost Gateway] Routing request to: ollama/glm-5:cloud with base http://localhost:11434
+INFO:backend.bifrost:[Bifrost Gateway] ⚡ CACHE HIT (Skipped Provider API)
+[BIFROST DEBUG] Routing to: ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:57964 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57980 - "POST /api/validate-sql HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:42628 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42640 - "GET /api/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42652 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42654 - "GET /api/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52456 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52466 - "GET /api/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52472 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52486 - "GET /api/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59162 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59176 - "GET /api/policies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59190 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59194 - "GET /api/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52206 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52216 - "GET /api/logs HTTP/1.1" 200 OK
+ollama/glm-5:cloud at http://localhost:11434
+[BIFROST DEBUG] Response received successfully.
+INFO:     127.0.0.1:36972 - "POST /bifrost/v1/chat/completions HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [154124]
+[92m23:04:06 - LiteLLM:INFO[0m: logging_worker.py:444 - [LoggingWorker] atexit: Flushing 1 remaining events...
+INFO:LiteLLM:[LoggingWorker] atexit: Flushing 1 remaining events...
+[92m23:04:06 - LiteLLM:INFO[0m: logging_worker.py:444 - [LoggingWorker] atexit: Successfully flushed 1 events!
+INFO:LiteLLM:[LoggingWorker] atexit: Successfully flushed 1 events!

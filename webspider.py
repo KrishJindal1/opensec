@@ -65,11 +65,12 @@ def validate_with_opensec(text_content):
         print(f"[WebSpider] Could not reach OpenSec Gateway: {e}")
         return False
 
-def summarize_with_ollama(text_content, user_prompt):
+def summarize_with_bifrost(text_content, user_prompt):
     """
-    Uses the configured Cloud Ollama model to summarize the validated text.
+    Uses the Bifrost Gateway proxy to summarize the validated text,
+    leveraging its unified routing and semantic caching.
     """
-    print("[WebSpider] Requesting summarization from GLM-5 brain...")
+    print("[WebSpider] Requesting summarization from Bifrost Gateway...")
     
     system_prompt = f"""
     You are WebSpider, a helpful agent that summarizes web content.
@@ -79,24 +80,33 @@ def summarize_with_ollama(text_content, user_prompt):
     {text_content[:4000]}
     """
     
+    # Bifrost exposes an OpenAI-compatible API
+    BIFROST_URL = "http://localhost:8000/bifrost/v1/chat/completions"
     payload = {
         "model": "glm-5:cloud", 
         "prompt": f"{system_prompt}\n\nUSER REQUEST: {user_prompt}",
-        "stream": False
+        "temperature": 0.7
     }
     
     try:
-        response = requests.post(OLLAMA_URL, json=payload, timeout=60)
-        action = response.json().get('response', '').strip()
-             
-        print("\n=== SUMMARY ===\n")
-        if action:
-            print(action)
+        response = requests.post(BIFROST_URL, json=payload, timeout=60)
+        
+        # Parse the OpenAI-compatible response format from Bifrost
+        if response.status_code == 200:
+             resp_json = response.json()
+             action = resp_json.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+                 
+             print("\n=== SUMMARY ===\n")
+             if action:
+                 print(action)
+             else:
+                 print(f"[Error: Empty model response] Raw JSON: {resp_json}")
+             print("\n===============\n")
         else:
-            print(f"[Error: Empty model response] Raw JSON: {response.json()}")
-        print("\n===============\n")
+             print(f"[WebSpider] Bifrost Error: {response.text}")
+             
     except Exception as e:
-        print(f"[WebSpider] Failed to speak to GLM-5 brain: {e}")
+        print(f"[WebSpider] Failed to speak to Bifrost Gateway: {e}")
 
 def run_agent(task, target_url):
     """
@@ -123,7 +133,7 @@ def run_agent(task, target_url):
         return
         
     # 3. Safe Execution: Summarize the content
-    summarize_with_ollama(raw_text, task)
+    summarize_with_bifrost(raw_text, task)
     
 
 if __name__ == "__main__":
